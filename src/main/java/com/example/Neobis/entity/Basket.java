@@ -1,9 +1,6 @@
 package com.example.Neobis.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,19 +12,26 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Basket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable
+    @ManyToMany
+    @JoinTable(name = "baskets_products",
+        joinColumns = @JoinColumn(name = "basket_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id"))
     List<Product> products;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private User user;
+
 
     public Map<Long, Product> getProductMap(){
         Map<Long, Product> productMap = products
                 .stream().collect(Collectors.toMap(Product::getId, p -> p));
         return productMap;
     }
+
 
 
 

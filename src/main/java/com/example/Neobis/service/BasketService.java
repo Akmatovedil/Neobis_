@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,18 +22,5 @@ public class BasketService {
     private ProductRepo productRepo;
     private UserRepo userRepo;
 
-    public BasketModel addProduct(Long productId, Long userId){
-        User user = userRepo.findById(userId)
-                .orElseThrow(()-> new RuntimeException("User not found"));
-        Product product = productRepo.findById(productId)
-                .orElseThrow(()-> new RuntimeException("Product not found"));
-        Basket userBasket = user.getBasket();
-        if (userBasket == null){
-            userBasket = new Basket();
-            user.setBasket(userBasket);
-        }
-        userBasket.getProducts().add(product);
-        userRepo.save(user);
-        return BasketMapper.INSTANCE.toModel(userBasket);
-    }
+
 }

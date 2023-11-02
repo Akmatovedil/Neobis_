@@ -4,7 +4,6 @@ import com.example.Neobis.entity.User;
 import com.example.Neobis.exception.RecordNotFoundException;
 import com.example.Neobis.mapper.UserMapper;
 import com.example.Neobis.model.UserModel;
-import com.example.Neobis.model.UserModel;
 import com.example.Neobis.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
