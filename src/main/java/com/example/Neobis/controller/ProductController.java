@@ -1,14 +1,12 @@
 package com.example.Neobis.controller;
 
-import com.example.Neobis.entity.Product;
-import com.example.Neobis.exception.ProductAlreadyExistException;
-import com.example.Neobis.exception.ProductNotFoundException;
+import com.example.Neobis.model.ProductModel;
 import com.example.Neobis.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,26 +15,28 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/save")
-    public ResponseEntity createProduct(@RequestBody Product product){
-        try {
-            productService.create(product);
-            return ResponseEntity.ok("Продукт был добавлен");
-        }catch (ProductAlreadyExistException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
-        }
+    @PostMapping("/saveNew")
+    public ProductModel saveProduct(@RequestBody ProductModel productModel){
+        return productService.saveProduct(productModel);
     }
 
-    @GetMapping
-    public ResponseEntity findProduct(@RequestParam Long id){
-        try {
-            return ResponseEntity.ok(productService.getOne(id));
-        }catch (ProductNotFoundException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Произошла ошибка");
-        }
+    @PutMapping("/update")
+    public ProductModel updateProduct(@RequestBody ProductModel productModel, @PathVariable Long id){
+        return productService.updateProduct(productModel, id);
+    }
+
+    @GetMapping("/findAll")
+    public List<ProductModel> findAll(){
+        return productService.findAllProducts();
+    }
+
+    @GetMapping("/findById")
+    public ProductModel findById(@RequestParam Long id){
+        return productService.getProductById(id);
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteProduct(@RequestParam Long id){
+        productService.deleteProduct(id);
     }
 }

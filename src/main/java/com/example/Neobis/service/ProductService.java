@@ -1,12 +1,15 @@
 package com.example.Neobis.service;
 
 import com.example.Neobis.entity.Product;
-import com.example.Neobis.exception.ProductAlreadyExistException;
-import com.example.Neobis.exception.ProductNotFoundException;
+import com.example.Neobis.exception.RecordNotFoundException;
+import com.example.Neobis.mapper.ProductMapper;
+import com.example.Neobis.model.ProductModel;
 import com.example.Neobis.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,29 +17,41 @@ public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
-    public Product create(Product product) throws ProductAlreadyExistException {
-        if (productRepo.findByName(product.getName()) != null){
-            throw new ProductAlreadyExistException("Продукт с таким именем уже существует");
+    public ProductModel saveProduct(ProductModel productModel){
+        Product product = ProductMapper.INSTANCE.toEntity(productModel);
+        try {
+            Product productSave = productRepo.save(product);
+            return ProductMapper.INSTANCE.toModel(productSave);
+        }catch (RuntimeException e){
+            throw new RuntimeException("Не удалось сохранить продукт в базе");
         }
-        return productRepo.save(product);
     }
 
-    public Product getOne(Long id) throws ProductNotFoundException{
-        Product product = productRepo.findById(id).get();
-        if (product == null){
-            throw new ProductNotFoundException("Продукта с так id не существует");
-        }
-        return product;
+    public ProductModel updateProduct(ProductModel productModel, Long id){
+        Product product = productRepo.findById(id)
+                .orElseThrow(()-> new RecordNotFoundException("Продукта с таким id не существует"));
+        product.setName(productModel.getName());
+        product.setPrice(productModel.getPrice());
+        return ProductMapper.INSTANCE.toModel(product);
     }
 
-    public Product update(Product product, Long id){
-        Product entity = productRepo.findById(id);
-        if (entity != null){
-            entity.setName(product.getName());
-            entity.setPrice(product.getPrice());
-            return productRepo.save(entity);
-        }else
+    public List<ProductModel> findAllProducts(){
+        return ProductMapper.INSTANCE.toModelList(productRepo.findAll());
     }
+
+    public ProductModel getProductById(Long id){
+        Product product = productRepo.findById(id)
+                .orElseThrow(()-> new RecordNotFoundException("Продукта с таки id не существует"));
+        return ProductMapper.INSTANCE.toModel(product);
+    }
+
+    public void deleteProduct(Long id){
+        Product product = productRepo.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Продукта с таки id не существует"));
+        productRepo.deleteById(product.getId());
+    }
+
+
 
 
 
