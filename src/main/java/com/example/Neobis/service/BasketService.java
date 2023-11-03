@@ -29,13 +29,16 @@ public class BasketService {
     @Autowired
     private BasketMapper basketMapper;
 
-    public BasketModel addProduct(Long productId, Long userId){
+    public BasketModel addProduct(Long productId, Long userId) {
         User user = userRepo.findById(userId)
-                .orElseThrow(()-> new RuntimeException("Not Found"));
-        Basket basket = basketRepo.findById(user.getId())
-                .orElse(new Basket(user.getId(),user,null));
-        Product product =productRepo.findById(productId)
-                .orElseThrow(()-> new RuntimeException("Not Found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Basket basket = basketRepo.findByUser(user)
+                .orElse(new Basket());
+
+        Product product = productRepo.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+
         List<Product> productList = basket.getProducts();
         if (productList != null) {
             boolean productExists = false;
@@ -47,10 +50,13 @@ public class BasketService {
             }
             if (!productExists)
                 productList.add(product);
-        }else
-                productList = Arrays.asList(product);
-            basket.setProducts(productList);
-            Basket savedBasket = basketRepo.save(basket);
-            return basketMapper.toModel(savedBasket);
+        } else
+            productList = Arrays.asList(product);
+        basket.setProducts(productList);
+        basket.setUser(user);
+
+        Basket savedBasket = basketRepo.save(basket);
+
+        return basketMapper.toModel(savedBasket);
     }
 }

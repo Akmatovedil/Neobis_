@@ -22,15 +22,9 @@ public class Basket {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     List<Product> products;
-    @OneToOne
-    @PrimaryKeyJoinColumn
+    @OneToOne(cascade =  CascadeType.REMOVE)
     User user;
 
-    public Map<Long, Product> getProductMap(){
-        Map<Long, Product> productMap = products
-                .stream().collect(Collectors.toMap(Product::getId, p -> p));
-        return productMap;
-    }
 
 
 

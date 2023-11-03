@@ -17,6 +17,8 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade =  CascadeType.REMOVE)
     Basket basket;
+
+
 }

@@ -4,6 +4,7 @@ import com.example.Neobis.model.BasketModel;
 import com.example.Neobis.service.BasketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,11 @@ public class BasketController {
     @Autowired
     private BasketService basketService;
     @PostMapping("/addProductBasket")
-    public BasketModel addProduct(@RequestParam Long productId, @RequestParam Long userId){
-        return basketService.addProduct(productId, userId);
+    public ResponseEntity addProduct(@RequestParam Long productId, @RequestParam Long userId){
+        try {
+            return ResponseEntity.ok(basketService.addProduct(productId, userId));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Произошла ошибка");
+        }
     }
 }

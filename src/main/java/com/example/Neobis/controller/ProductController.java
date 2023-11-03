@@ -4,6 +4,7 @@ import com.example.Neobis.model.ProductModel;
 import com.example.Neobis.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +17,13 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/saveNew")
-    public ProductModel saveProduct(@RequestBody ProductModel productModel){
-        return productService.saveProduct(productModel);
+    public ResponseEntity saveProduct(@RequestBody ProductModel productModel){
+        try {
+            return ResponseEntity.ok(productService.saveProduct(productModel));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Произошла ошибка");
+        }
+
     }
 
     @PutMapping("/update")
