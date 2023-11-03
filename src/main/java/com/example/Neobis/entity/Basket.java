@@ -22,6 +22,9 @@ public class Basket {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable
     List<Product> products;
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    User user;
 
     public Map<Long, Product> getProductMap(){
         Map<Long, Product> productMap = products

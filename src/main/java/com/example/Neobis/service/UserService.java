@@ -7,6 +7,7 @@ import com.example.Neobis.model.UserModel;
 import com.example.Neobis.model.UserModel;
 import com.example.Neobis.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    @Autowired
     private UserRepo userRepo;
 
     public UserModel saveUser(UserModel userModel){
@@ -22,7 +24,7 @@ public class UserService {
             User userSave = userRepo.save(user);
             return UserMapper.INSTANCE.toModel(userSave);
         }catch (RuntimeException e){
-            throw new RuntimeException("Не удалось сохранить пользователя в базе");
+            throw new RuntimeException("Не удалось сохранить пользователя в базе", e);
         }
     }
 
