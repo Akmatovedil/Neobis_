@@ -1,15 +1,15 @@
-package com.example.Neobis.model;
+package com.example.Neobis.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class BasketModel {
+public class UserDto {
     private Long id;
-    private List<ProductModel> products;
+    private String email;
+    private String username;
+
 }

@@ -1,42 +1,37 @@
 package com.example.Neobis.controller;
 
-import com.example.Neobis.model.UserModel;
+import com.example.Neobis.dto.UserDto;
 import com.example.Neobis.service.UserService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.example.Neobis.config.SwaggerConfig.USER;
+
+@Api(tags = USER)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userServiceImpl;
+    @PostMapping("/save")
+    public UserDto saveUser(@RequestBody UserDto userDto){
 
-    @PostMapping("/saveNew")
-    public UserModel saveUser(@RequestBody UserModel userModel){
-        return userService.saveUser(userModel);
+        return userServiceImpl.saveUser(userDto);
     }
-
     @PutMapping("/update")
-    public UserModel updateUser(@RequestBody UserModel userModel, @PathVariable Long id){
-        return userService.updateUser(userModel, id);
+    public UserDto updateUser(@RequestBody UserDto userDto, @PathVariable long id){
+        return userServiceImpl.updateUser(userDto, id);
     }
-
     @GetMapping("/findAll")
-    public List<UserModel> findAll(){
-        return userService.findAllUsers();
+    public List<UserDto> findAll(){
+        return userServiceImpl.findAllUser();
     }
-
-    @GetMapping("/findById")
-    public UserModel findById(@RequestParam Long id){
-        return userService.getUserById(id);
-    }
-
     @DeleteMapping("/delete")
-    public void deleteProduct(@RequestParam Long id){
-        userService.deleteUser(id);
+    public void deleteUser(@RequestParam Long id) {
+        userServiceImpl.deleteUser(id);
     }
+
 }
