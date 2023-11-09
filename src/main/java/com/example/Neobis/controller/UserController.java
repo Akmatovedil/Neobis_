@@ -15,23 +15,20 @@ import static com.example.Neobis.config.SwaggerConfig.USER;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userServiceImpl;
-    @PostMapping("/save")
-    public UserDto saveUser(@RequestBody UserDto userDto){
+    private final UserService userService;
 
-        return userServiceImpl.saveUser(userDto);
-    }
-    @PutMapping("/update")
-    public UserDto updateUser(@RequestBody UserDto userDto, @PathVariable long id){
-        return userServiceImpl.updateUser(userDto, id);
-    }
     @GetMapping("/findAll")
     public List<UserDto> findAll(){
-        return userServiceImpl.findAllUser();
+        return userService.findAllUser();
+    }
+
+    @GetMapping("/findById")
+    public UserDto findById(@RequestParam Long id){
+        return userService.getUserById(id);
     }
     @DeleteMapping("/delete")
     public void deleteUser(@RequestParam Long id) {
-        userServiceImpl.deleteUser(id);
+        userService.deleteUser(id);
     }
 
 }

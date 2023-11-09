@@ -45,7 +45,7 @@ public class SecurityConfig {
         @Bean
         public CorsFilter corsFilter() {
             CorsConfiguration config = new CorsConfiguration();
-            config.addAllowedOrigin("http://localhost:5173"); // Add your allowed origins here
+            config.addAllowedOrigin("http://localhost:5173");
             config.addAllowedMethod("*");
             config.addAllowedHeader("*");
             config.setAllowCredentials(true);

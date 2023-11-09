@@ -1,14 +1,12 @@
 package com.example.Neobis.controller;
 
+import com.example.Neobis.dto.OrderDto;
 import com.example.Neobis.service.OrderService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.Neobis.config.SwaggerConfig.ORDER;
 
@@ -17,19 +15,26 @@ import static com.example.Neobis.config.SwaggerConfig.ORDER;
 @RequiredArgsConstructor
 @RequestMapping("/basket")
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
-    @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    @GetMapping("/get")
+    public OrderDto getOrder(){
+        return orderService.getOrder();
     }
 
-    @PostMapping("/addProductBasket")
-    public ResponseEntity addProduct(@RequestParam Long productId, @RequestParam Long userId){
-        try {
-            return ResponseEntity.ok(orderService.addProduct(productId, userId));
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Произошла ошибка");
-        }
+    @PostMapping("/addProductToOrder")
+    public OrderDto addProduct(@RequestParam Long productId){
+        return orderService.addProduct(productId);
     }
+
+    @PostMapping("/deleteProductInOrder")
+    public OrderDto deleteProduct(@RequestParam Long productId){
+        return orderService.deleteProduct(productId);
+    }
+
+    @DeleteMapping("/clear")
+    public OrderDto deleteBasket(){
+        return orderService.clearOrder();
+    }
+
 }

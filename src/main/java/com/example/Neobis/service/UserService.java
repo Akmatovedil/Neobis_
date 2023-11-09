@@ -68,23 +68,6 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public UserDto saveUser(UserDto userDto) {
-        User user = UserMapper.INSTANCE.toEntity(userDto);
-        try {
-            User userSave = userRepository.save(user);
-            return UserMapper.INSTANCE.toModel(userSave);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Не удалось сохранить пользователя в базе!", e);
-        }
-    }
-
-    public UserDto updateUser(UserDto userDto, long id) {
-        User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new RecordNotFoundException("Пользователя с таким id не существует!"));
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getUsername());
-        return UserMapper.INSTANCE.toModel(user);
-    }
 
 
     public UserDto getUserById(Long id) {
