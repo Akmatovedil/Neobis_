@@ -1,8 +1,12 @@
 package com.example.Neobis.dto;
 
-import lombok.Data;
+import lombok.*;
+import org.springframework.stereotype.Service;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class JwtRequest {
     private String username;
     private String password;

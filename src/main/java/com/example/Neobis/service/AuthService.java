@@ -15,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
@@ -46,4 +47,9 @@ public class AuthService {
         return ResponseEntity.ok(new UserDto(user.getId(), user.getUsername(), user.getEmail()));
 
     }
+
+    public void addTokenToModel(Model model, String token) {
+        model.addAttribute("token", token);
+    }
+
 }

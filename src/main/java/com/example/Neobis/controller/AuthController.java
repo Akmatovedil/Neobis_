@@ -20,7 +20,7 @@ import static com.example.Neobis.config.SwaggerConfig.AUTH;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/auth")
+    @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
         return authService.createAuthToken(authRequest);
     }

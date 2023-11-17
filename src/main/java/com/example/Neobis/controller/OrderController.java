@@ -13,7 +13,7 @@ import static com.example.Neobis.config.SwaggerConfig.ORDER;
 @Api(tags = ORDER)
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/basket")
+@RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
 

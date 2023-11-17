@@ -14,10 +14,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
-    public ProductDto saveProduct(ProductDto productDto){
+    private final ProductRepository productRepository;
+
+    public ProductDto addProduct(ProductDto productDto){
         Product product = ProductMapper.INSTANCE.toEntity(productDto);
         try {
             Product productSave = productRepository.save(product);

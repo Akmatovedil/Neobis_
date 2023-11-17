@@ -24,17 +24,17 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/saveNew")
+    @PostMapping("/addProduct")
     public ResponseEntity saveProduct(@RequestBody ProductDto productDto){
         try {
-            return ResponseEntity.ok(productService.saveProduct(productDto));
+            return ResponseEntity.ok(productService.addProduct(productDto));
         }catch (Exception e) {
             return ResponseEntity.badRequest().body("Произошла ошибка");
         }
 
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ProductDto updateProduct(@RequestBody ProductDto productDto, @PathVariable Long id){
         return productService.updateProduct(productDto, id);
     }
@@ -49,8 +49,8 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteProduct(@RequestParam Long id){
+    @DeleteMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
 }
