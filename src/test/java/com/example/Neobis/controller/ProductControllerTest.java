@@ -38,8 +38,8 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     void testUpdateProduct() throws Exception {
-        Long productId = 1L; //
-        ProductDto productDto = new ProductDto(1L, "Пельмени", "500");
+        Long productId = 2L; //
+        ProductDto productDto = new ProductDto(2L, "Пельмени", "500");
 
         mockMvc.perform(MockMvcRequestBuilders.put("/product/update/{id}", productId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     void testFindById() throws Exception {
-        Long productId = 1L;
+        Long productId = 2L;
 
         mockMvc.perform(MockMvcRequestBuilders.get("/product/findById")
                         .param("id", productId.toString()))
@@ -70,7 +70,7 @@ public class ProductControllerTest {
     @Test
     @WithMockUser(authorities = {"ROLE_ADMIN"})
     void testDeleteProduct() throws Exception {
-        Long productId = 1L;
+        Long productId = 2L;
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/product/delete/{id}", productId))
                 .andExpect(status().isOk());

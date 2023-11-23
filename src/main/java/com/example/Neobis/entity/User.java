@@ -19,6 +19,9 @@ public class User {
     private String username;
     private String password;
     private String email;
+    @Column(name = "first_name")
+    private String firstName;
+    private String lastName;
     @OneToOne(cascade =  CascadeType.REMOVE)
     Order order;
 
